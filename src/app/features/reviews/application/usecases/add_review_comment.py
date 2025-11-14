@@ -8,7 +8,10 @@ from app.features.reviews.domain.repositories import ReviewRepository
 
 
 class AddReviewCommentUseCase:
-    def __init__(self, repository: ReviewRepository) -> None:
+    def __init__(
+        self,
+        repository: ReviewRepository,
+    ) -> None:
         self._repository = repository
 
     def execute(self, review_id: UUID, user_id: UUID, comment_text: str) -> ReviewCommentDTO:
@@ -16,4 +19,6 @@ class AddReviewCommentUseCase:
             raise ReviewNotFoundError(f"Review {review_id} was not found")
         comment = ReviewComment(review_id=review_id, user_id=user_id, comment_text=comment_text)
         created = self._repository.add_comment(comment)
-        return to_review_comment_dto(created)
+        dto = to_review_comment_dto(created)
+
+        return dto

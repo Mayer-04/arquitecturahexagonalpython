@@ -13,17 +13,27 @@ from sqlalchemy.orm import Session
 
 from app.features.reviews.application.dtos.create_review_dto import CreateReviewDTO
 from app.features.reviews.application.dtos.update_review_dto import UpdateReviewDTO
-from app.features.reviews.application.usecases.add_review_comment import AddReviewCommentUseCase
-from app.features.reviews.application.usecases.add_review_image import AddReviewImageUseCase
-from app.features.reviews.application.usecases.cast_review_vote import CastReviewVoteUseCase
+from app.features.reviews.application.usecases.add_review_comment import (
+    AddReviewCommentUseCase,
+)
+from app.features.reviews.application.usecases.add_review_image import (
+    AddReviewImageUseCase,
+)
+from app.features.reviews.application.usecases.cast_review_vote import (
+    CastReviewVoteUseCase,
+)
 from app.features.reviews.application.usecases.create_review import CreateReviewUseCase
 from app.features.reviews.application.usecases.delete_review import DeleteReviewUseCase
 from app.features.reviews.application.usecases.get_review import GetReviewUseCase
 from app.features.reviews.application.usecases.get_review_vote_summary import (
     GetReviewVoteSummaryUseCase,
 )
-from app.features.reviews.application.usecases.list_review_comments import ListReviewCommentsUseCase
-from app.features.reviews.application.usecases.list_review_images import ListReviewImagesUseCase
+from app.features.reviews.application.usecases.list_review_comments import (
+    ListReviewCommentsUseCase,
+)
+from app.features.reviews.application.usecases.list_review_images import (
+    ListReviewImagesUseCase,
+)
 from app.features.reviews.application.usecases.list_reviews_for_record import (
     ListReviewsForRecordUseCase,
 )
@@ -34,7 +44,9 @@ from app.features.reviews.domain.exceptions import (
     ReviewNotFoundError,
 )
 from app.features.reviews.domain.repositories import ReviewRepository
-from app.features.reviews.infrastructure.postgres_repository import PostgresReviewRepository
+from app.features.reviews.infrastructure.postgres_repository import (
+    PostgresReviewRepository,
+)
 from app.shared.infrastructure.database import get_db
 
 DbSession = Annotated[Session, Depends(get_db)]
@@ -115,7 +127,10 @@ class VotePayload(BaseModel):
     useful: bool
 
 
-def create_review(payload: CreateReviewPayload, repository: RepositoryDep) -> ReviewResponse:
+def create_review(
+    payload: CreateReviewPayload,
+    repository: RepositoryDep,
+) -> ReviewResponse:
     usecase = CreateReviewUseCase(repository)
     try:
         dto = usecase.execute(

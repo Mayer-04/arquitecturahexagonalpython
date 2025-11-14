@@ -8,7 +8,10 @@ from app.features.reviews.domain.repositories import ReviewRepository
 
 
 class CastReviewVoteUseCase:
-    def __init__(self, repository: ReviewRepository) -> None:
+    def __init__(
+        self,
+        repository: ReviewRepository,
+    ) -> None:
         self._repository = repository
 
     def execute(self, review_id: UUID, user_id: UUID, useful: bool) -> ReviewVoteDTO:
@@ -16,4 +19,5 @@ class CastReviewVoteUseCase:
             raise ReviewNotFoundError(f"Review {review_id} was not found")
         vote = ReviewVote(review_id=review_id, user_id=user_id, useful=useful)
         saved = self._repository.upsert_vote(vote)
-        return to_review_vote_dto(saved)
+        dto = to_review_vote_dto(saved)
+        return dto

@@ -7,7 +7,10 @@ from app.features.reviews.domain.repositories import ReviewRepository
 
 
 class CreateReviewUseCase:
-    def __init__(self, repository: ReviewRepository) -> None:
+    def __init__(
+        self,
+        repository: ReviewRepository,
+    ) -> None:
         self._repository = repository
 
     def execute(self, dto: CreateReviewDTO) -> ReviewDTO:
@@ -23,4 +26,5 @@ class CreateReviewUseCase:
         for image_url in dto.image_urls:
             self._repository.add_image(ReviewImage(review_id=created.id, image_url=image_url))
 
-        return to_review_dto(created)
+        review_dto = to_review_dto(created)
+        return review_dto
